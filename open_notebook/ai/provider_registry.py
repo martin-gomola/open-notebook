@@ -320,6 +320,15 @@ _PROVIDER_SPECS: Tuple[ProviderSpec, ...] = (
         # Anthropic's GET /v1/models with x-api-key + anthropic-version headers
         # (bespoke), not the OpenAI-compatible GET /models discovery table.
     ),
+    ProviderSpec(
+        name="codex",
+        display_name="Codex CLI (ChatGPT login)",
+        modalities=_LANGUAGE_ONLY,
+        # No env vars or API key: auth is the local `codex login` on the API
+        # host. Not routed through Esperanto (open_notebook/ai/codex_cli.py).
+        test_model=None,
+        docs_url="https://github.com/lfnovo/open-notebook/blob/main/docs/5-CONFIGURATION/ai-providers.md#codex-cli-chatgpt-login",
+    ),
 )
 
 

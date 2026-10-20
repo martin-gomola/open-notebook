@@ -165,6 +165,16 @@ Use the **OpenAI Compatible** provider with **Base URL** `http://host.docker.int
 
 vLLM, llama.cpp, LocalAI, Text Generation WebUI and Speaches all work through **OpenAI Compatible**. See [OpenAI-Compatible](openai-compatible.md) and, for speech, [Local speech with Speaches](local-tts.md).
 
+### Codex CLI (ChatGPT login)
+
+Uses the language models of your ChatGPT plan through the [Codex CLI](https://developers.openai.com/codex/cli), with no API key. It only works when Open Notebook runs from source (`make start-all`) on a machine where `codex` is installed and `codex login` has been run. The Docker image doesn't include Codex.
+
+1. Run `codex login status` and check that it says you're logged in.
+2. In Manage → Models, add a **Codex CLI (ChatGPT login)** configuration. It only needs a name. **Test Connection** checks the login.
+3. Discover models and register the ones you want as language models.
+
+Every call starts a sandboxed `codex exec` with no tools, so expect a few seconds of extra latency per answer. Temperature and max-token settings are ignored. Codex has no embedding or speech models: pair it with Ollama or another provider for embeddings. Podcasts can't use Codex models. Set `CODEX_CLI_PATH` if `codex` isn't on the API's `PATH`.
+
 ---
 
 ## Enterprise

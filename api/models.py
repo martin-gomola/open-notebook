@@ -613,6 +613,7 @@ SupportedProvider = Literal[
     "vertex",
     "openai_compatible",
     "anthropic_compatible",
+    "codex",
 ]
 
 

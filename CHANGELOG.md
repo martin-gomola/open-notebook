@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Codex CLI provider: use your ChatGPT plan without an API key.** A new `codex` language provider runs the official Codex CLI (`codex exec`) with your existing `codex login`. Each call runs sandboxed with no tools, plugins, MCP servers or user config, so content in your sources can't make Codex run commands. Works when Open Notebook runs from source on a machine with Codex installed. Embeddings and podcasts still need another provider. See [AI providers](docs/5-CONFIGURATION/ai-providers.md#codex-cli-chatgpt-login)
+
 ### Changed
 - **Documentation rewritten against the code.** Every page under `docs/` was checked against v1.15.0 and rewritten where it described an older or imagined product (#1458, #1459, #1460, #1461):
   - **Install:** one canonical path built on the shipped `docker-compose.yml`, with small override files for the Ollama and LM Studio variants. The network-exposure warning (bind ports to `127.0.0.1` or set a password) comes before the first `docker compose up -d`. Example encryption keys are generated, never copied. First-run setup lives in one place, [Connect a provider](docs/4-AI-PROVIDERS/index.md#connect-a-provider), and ends in a working chat via **Auto-assign Defaults**. The provider table is built from the provider registry: 24 providers, with the model types each one offers

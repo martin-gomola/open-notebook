@@ -318,6 +318,12 @@ async def test_credential(credential_id: str) -> dict:
             )
             return {"provider": provider, "success": success, "message": message}
 
+        if provider == "codex":
+            from open_notebook.ai.codex_cli import check_codex_login
+
+            success, message = await check_codex_login()
+            return {"provider": provider, "success": success, "message": message}
+
         if provider == "azure":
             success, message = await _test_azure_connection(
                 endpoint=config.get("endpoint"),
@@ -463,6 +469,11 @@ async def discover_with_config(provider: str, config: dict) -> List[dict]:
         if not api_key and provider != "ollama":
             return []
         return [{"name": m, "provider": provider} for m in STATIC_MODELS[provider]]
+
+    if provider == "codex":
+        from open_notebook.ai.codex_cli import list_codex_models
+
+        return [{"name": m, "provider": "codex"} for m in await list_codex_models()]
 
     if provider == "anthropic":
         if not api_key:

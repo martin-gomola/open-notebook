@@ -918,6 +918,16 @@ async def discover_omlx_models() -> List[DiscoveredModel]:
     return models
 
 
+async def discover_codex_models() -> List[DiscoveredModel]:
+    """Models offered by the local Codex CLI login (language only)."""
+    from open_notebook.ai.codex_cli import list_codex_models
+
+    return [
+        DiscoveredModel(name=slug, provider="codex", model_type="language")
+        for slug in await list_codex_models()
+    ]
+
+
 # =============================================================================
 # Main Discovery Functions
 # =============================================================================
@@ -946,6 +956,7 @@ PROVIDER_DISCOVERY_FUNCTIONS = {
     "zai": discover_zai_models,
     "ppq": discover_ppq_models,
     "cohere": discover_cohere_models,
+    "codex": discover_codex_models,
     "azure": None,  # Azure requires credential-based discovery (different auth)
     "vertex": None,  # Vertex requires credential-based discovery (service account)
 }

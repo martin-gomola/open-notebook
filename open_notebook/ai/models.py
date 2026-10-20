@@ -11,6 +11,8 @@ from esperanto import (
 from loguru import logger
 from surrealdb import RecordID
 
+from open_notebook.ai.codex_cli import PROVIDER_NAME as CODEX_PROVIDER
+from open_notebook.ai.codex_cli import CodexLanguageModel
 from open_notebook.ai.connection_tester import normalize_anthropic_compatible_base_url
 from open_notebook.database.repository import ensure_record_id, repo_query
 from open_notebook.domain.base import ObjectModel, RecordModel
@@ -219,6 +221,12 @@ class ModelManager:
             "text_to_speech",
         ]:
             raise ConfigurationError(f"Invalid model type: {model.type}")
+
+        if model.provider == CODEX_PROVIDER:
+            if model.type != "language":
+                raise ConfigurationError("Codex only provides language models")
+            # Auth is the local `codex login`; there is no credential to provision.
+            return CodexLanguageModel(model_name=model.name, config=dict(kwargs))
 
         # Build config from credential if linked, otherwise fall back to env vars
         config: dict = {}

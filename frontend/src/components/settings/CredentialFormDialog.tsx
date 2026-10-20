@@ -48,8 +48,10 @@ export function CredentialFormDialog({
   const isOllama = provider === 'ollama'
   const isOmlx = provider === 'omlx'
   const isOpenAICompatible = provider === 'openai_compatible'
+  // Codex authenticates with the API host's `codex login`: no key, no URL.
+  const isCodex = provider === 'codex'
   // oMLX is a local no-auth endpoint by default (optional --api-key).
-  const requiresApiKey = !isVertex && !isOllama && !isOmlx && !isOpenAICompatible
+  const requiresApiKey = !isVertex && !isOllama && !isOmlx && !isOpenAICompatible && !isCodex
 
   const [name, setName] = useState('')
   const [apiKey, setApiKey] = useState('')
@@ -194,7 +196,7 @@ export function CredentialFormDialog({
                 />
               </div>
             </>
-          ) : (
+          ) : isCodex ? null : (
             /* API Key */
             <div className="space-y-2">
               <Label htmlFor="api-key">
@@ -231,7 +233,7 @@ export function CredentialFormDialog({
           )}
 
           {/* Base URL (non-Vertex) */}
-          {!isVertex && (
+          {!isVertex && !isCodex && (
             <div className="space-y-2">
               <Label htmlFor="base-url" className="text-muted-foreground">{t('apiKeys.baseUrl')}</Label>
               <input

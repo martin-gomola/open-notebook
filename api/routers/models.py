@@ -456,6 +456,7 @@ async def get_provider_availability():
             bool((os.environ.get("ANTHROPIC_COMPATIBLE_BASE_URL") or "").strip())
             and bool((os.environ.get("ANTHROPIC_COMPATIBLE_API_KEY") or "").strip())
         )
+        provider_status["codex"] = await _check_provider_has_credential("codex")
 
         available_providers = [k for k, v in provider_status.items() if v]
         unavailable_providers = [k for k, v in provider_status.items() if not v]
@@ -505,6 +506,8 @@ async def get_provider_availability():
                     and "anthropic" in esperanto_available["language"]
                 ):
                     supported_types[provider].append("language")
+            elif provider == "codex":
+                supported_types[provider].append("language")
             else:
                 # Standard provider detection
                 for model_type, providers in esperanto_available.items():

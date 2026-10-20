@@ -90,6 +90,7 @@ class TestOpenAICompatTable:
             "zai",
             "ppq",
             "cohere",
+            "codex",
             "azure",
             "vertex",
         }
