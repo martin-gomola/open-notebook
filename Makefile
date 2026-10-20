@@ -1,7 +1,7 @@
 .PHONY: run frontend check ruff database lint api start-all stop-all status clean-cache worker worker-start worker-stop worker-restart
 .PHONY: docker-buildx-prepare docker-buildx-clean docker-buildx-reset
 .PHONY: docker-push docker-push-latest docker-release docker-build-local tag export-docs
-.PHONY: release-test release-stack release-stack-down
+.PHONY: release-test release-stack release-stack-down up down
 
 # Get version from pyproject.toml
 VERSION := $(shell grep -m1 version pyproject.toml | cut -d'"' -f2)
@@ -171,6 +171,15 @@ worker-stop:
 worker-restart: worker-stop
 	@sleep 2
 	@$(MAKE) worker-start
+
+# === Docker Stack ===
+up:
+	docker compose up -d
+	@echo "📱 UI: http://localhost:8502"
+	@echo "🔗 API: http://localhost:5055"
+
+down:
+	docker compose down
 
 # === Service Management ===
 start-all:
